@@ -1,4 +1,5 @@
 const modals = () => {
+    let pressed = false;
 
     function bindModals(triggerSelector, modalSelector, closeSelector, closeOverlay = true) {
 
@@ -19,12 +20,14 @@ const modals = () => {
                     item.style.display = 'none'
                 });
 
+                pressed = true;
+
                 modal.style.display = "flex";
                 document.body.style.overflow = "hidden";
                 clearTimeout(timer);
 
                 if (e.target.classList.contains('fixed-gift')) {
-                    e.target.style.display = "none";
+                    item.remove();
                 }
             });
         })
@@ -57,22 +60,22 @@ const modals = () => {
 
     //auto modal
 
-    const timer = setTimeout(showModalByTime, 2000);
+    // const timer = setTimeout(showModalByTime, 2000);
 
-    function showModalByTime() {
-        let display;
+    // function showModalByTime() {
+    //     let display;
 
-        document.querySelectorAll('[data-modal]').forEach(item => {
-            if (getComputedStyle(item).display !== "none") {
-                display = 'asd';
-            }
-        });
+    //     document.querySelectorAll('[data-modal]').forEach(item => {
+    //         if (getComputedStyle(item).display !== "none") {
+    //             display = 'asd';
+    //         }
+    //     });
 
-        if (!display) {
-            document.querySelector('.popup-design').style.display = 'flex';
-            document.body.style.overflow = "hidden";
-        }
-    }
+    //     if (!display) {
+    //         document.querySelector('.popup-design').style.display = 'flex';
+    //         document.body.style.overflow = "hidden";
+    //     }
+    // }
 
 
     //show scroll in bottom
@@ -80,7 +83,7 @@ const modals = () => {
     function showModalByScroll() {
         const modal = document.querySelector('.popup-design');
 
-        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+        if (!pressed && (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight)) {
             modal.style.display = "flex";
             document.body.style.overflow = "hidden";
             window.removeEventListener('scroll', showModalByScroll);
@@ -88,18 +91,6 @@ const modals = () => {
     }
 
     window.addEventListener('scroll', showModalByScroll);
-
-    //GIFT
-
-    // function gift(selector) {
-    //    const giftItem = document.querySelector(selector);
-       
-    //    giftItem.addEventListener('click', () => {
-    //        bindModals('.fixed-gift', '.popup-gift', '.popup-gift .popup-close');
-    //    });
-
-    //    giftItem.style.display = "none";
-    // }
 
 
     bindModals('.button-design', '.popup-design', '.popup-design .popup-close');
