@@ -3500,7 +3500,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var forms = function forms() {
-  var forms = document.querySelectorAll('forms');
+  var forms = document.querySelectorAll('form');
   var massage = {
     acept: 'Спасибо! С Вами кто-то свяжется',
     loading: 'Загрузка данных',
@@ -3594,8 +3594,7 @@ var modals = function modals() {
         });
         pressed = true;
         modal.style.display = "flex";
-        document.body.style.overflow = "hidden";
-        clearTimeout(timer);
+        document.body.style.overflow = "hidden"; // clearTimeout(timer);
 
         if (e.target.classList.contains('fixed-gift')) {
           item.remove();

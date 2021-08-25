@@ -24,7 +24,7 @@ const modals = () => {
 
                 modal.style.display = "flex";
                 document.body.style.overflow = "hidden";
-                clearTimeout(timer);
+                // clearTimeout(timer);
 
                 if (e.target.classList.contains('fixed-gift')) {
                     item.remove();

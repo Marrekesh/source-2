@@ -1,6 +1,6 @@
 const forms = () => {
 
-    const forms = document.querySelectorAll('forms');
+    const forms = document.querySelectorAll('form');
 
     const massage = {
         acept: 'Спасибо! С Вами кто-то свяжется',
@@ -12,6 +12,7 @@ const forms = () => {
         const res = await fetch(url, {
             method: 'POST',
             body: data
+
         });
 
         return await res.text();
@@ -27,6 +28,8 @@ const forms = () => {
 
             const formData = new FormData(form);
 
+
+
             postData('assets/server.php', formData)
                 .then(data => {
                     console.log(data);
@@ -39,12 +42,12 @@ const forms = () => {
                         statusMassage.remove();
                     }, 4000)
                 })
-
         })
 
 
     })
 
 }
+
 
 export default forms;
