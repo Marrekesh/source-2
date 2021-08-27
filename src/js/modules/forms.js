@@ -1,3 +1,5 @@
+import { postData } from "../services/requests";
+
 const forms = () => {
 
     const forms = document.querySelectorAll('form');
@@ -41,19 +43,16 @@ const forms = () => {
         })
     })
 
-    const postData = async (url, data) => {
-        const res = await fetch(url, {
-            method: 'POST',
-            body: data,
+    // const postData = async (url, data) => {
+    //     const res = await fetch(url, {
+    //         method: 'POST',
+    //         body: data,
 
-            // headers: {
-            //     "Content-type": "application/json"
-            // },
 
-        });
+    //     });
 
-        return await res.text();
-    }
+    //     return await res.text();
+    // }
 
     forms.forEach(form => {
         form.addEventListener('submit', (e) => {
