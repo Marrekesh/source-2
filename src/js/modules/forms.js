@@ -1,10 +1,12 @@
 import { postData } from "../services/requests";
 
-const forms = () => {
+
+const forms = (resultC) => {
 
     const forms = document.querySelectorAll('form');
     const inputs = document.querySelectorAll('input');
     const upload = document.querySelectorAll('[name="upload"]');
+
 
     const massage = {
         acept: 'Спасибо! С Вами кто-то свяжется',
@@ -75,8 +77,16 @@ const forms = () => {
             let statusText = document.createElement('div');
             statusText.textContent = massage.loading;
             statusMassage.appendChild(statusText);
+            console.log(resultC);
 
             const formData = new FormData(form);
+        
+
+            if (form.getAttribute('data-form') === 'calc') {
+                for (let key in resultC) {
+                    formData.append(key, resultC[key]);
+                }
+            }
             // const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
             let api;

@@ -1,7 +1,7 @@
 const postData = async (url, data) => {
     const res = await fetch(url, {
         method: 'POST',
-        body: data,
+        body: data
 
         // headers: {
         //     "Content-type": "application/json"
@@ -19,7 +19,7 @@ const getResource = async (url) => {
         throw Error (`This is ${status.ok}`)
     }
 
-    return await res.json();
+    return await res.text();
 }
 
 export {postData, getResource};

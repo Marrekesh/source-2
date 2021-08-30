@@ -4155,18 +4155,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/forms */ "./src/js/modules/forms.js");
 /* harmony import */ var _modules_cards__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/cards */ "./src/js/modules/cards.js");
 /* harmony import */ var _modules_calc__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/calc */ "./src/js/modules/calc.js");
+/* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/modules/tabs.js");
+
 
 
 
 
 
 document.addEventListener('DOMContentLoaded', function () {
+  var resultCalc = {};
   Object(_modules_modals__WEBPACK_IMPORTED_MODULE_0__["default"])();
   Object(_modules_slider__WEBPACK_IMPORTED_MODULE_1__["default"])('.main-slider-item', 'vertical');
   Object(_modules_slider__WEBPACK_IMPORTED_MODULE_1__["default"])('.feedback-slider-item', 'horizontal', '.main-prev-btn', '.main-next-btn');
-  Object(_modules_forms__WEBPACK_IMPORTED_MODULE_2__["default"])();
+  Object(_modules_forms__WEBPACK_IMPORTED_MODULE_2__["default"])(resultCalc);
   Object(_modules_cards__WEBPACK_IMPORTED_MODULE_3__["default"])('.button-styles', '#styles .row');
-  Object(_modules_calc__WEBPACK_IMPORTED_MODULE_4__["default"])('#size', '#material', '#options', '.calc-price', '.promocode');
+  Object(_modules_calc__WEBPACK_IMPORTED_MODULE_4__["default"])('#size', '#material', '#options', '.calc-price', '.promocode', resultCalc);
+  Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_5__["default"])('.portfolio-menu', '.portfolio-menu li', '.portfolio-block');
 });
 
 /***/ }),
@@ -4180,7 +4184,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var calc = function calc(size, material, options, result, promocode) {
+var calc = function calc(size, material, options, result, promocode, resultC) {
   var sizeBlock = document.querySelector(size),
       materialBlock = document.querySelector(material),
       optionslBlock = document.querySelector(options),
@@ -4189,6 +4193,9 @@ var calc = function calc(size, material, options, result, promocode) {
   var sum = 0;
 
   function clacTo() {
+    resultC['size'] = sizeBlock.value;
+    resultC['material'] = materialBlock.value;
+    resultC['options'] = optionslBlock.value;
     sum = Math.round(+sizeBlock.value * +materialBlock.value + +optionslBlock.value);
 
     if (sizeBlock.value && materialBlock.value == '') {
@@ -4198,6 +4205,8 @@ var calc = function calc(size, material, options, result, promocode) {
     } else {
       resultBlock.textContent = sum;
     }
+
+    resultC['sum'] = sum; // console.log(resultC);
   }
 
   sizeBlock.addEventListener('change', clacTo);
@@ -4286,7 +4295,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var forms = function forms() {
+var forms = function forms(resultC) {
   var forms = document.querySelectorAll('form');
   var inputs = document.querySelectorAll('input');
   var upload = document.querySelectorAll('[name="upload"]');
@@ -4345,7 +4354,15 @@ var forms = function forms() {
       var statusText = document.createElement('div');
       statusText.textContent = massage.loading;
       statusMassage.appendChild(statusText);
-      var formData = new FormData(form); // const json = JSON.stringify(Object.fromEntries(formData.entries()));
+      console.log(resultC);
+      var formData = new FormData(form);
+
+      if (form.getAttribute('data-form') === 'calc') {
+        for (var key in resultC) {
+          formData.append(key, resultC[key]);
+        }
+      } // const json = JSON.stringify(Object.fromEntries(formData.entries()));
+
 
       var api;
       form.closest('.popup-design') || form.classList.contains('calc_form') ? api = path.general : api = path.questions;
@@ -4549,6 +4566,25 @@ var slider = function slider(items, dir, prev, next) {
 
 /***/ }),
 
+/***/ "./src/js/modules/tabs.js":
+/*!********************************!*\
+  !*** ./src/js/modules/tabs.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var tabs = function tabs(parentSelector, tabSelector, contentSelector, activeClass) {
+  var parent = document.querySelector(parentSelector),
+      tab = document.querySelectorAll(tabSelector),
+      content = document.querySelectorAll(contentSelector);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (tabs);
+
+/***/ }),
+
 /***/ "./src/js/services/requests.js":
 /*!*************************************!*\
   !*** ./src/js/services/requests.js ***!
@@ -4622,7 +4658,7 @@ var getResource = function getResource(url) {
 
         case 5:
           _context2.next = 7;
-          return regeneratorRuntime.awrap(res.json());
+          return regeneratorRuntime.awrap(res.text());
 
         case 7:
           return _context2.abrupt("return", _context2.sent);

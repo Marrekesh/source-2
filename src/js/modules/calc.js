@@ -1,4 +1,4 @@
-const calc = (size, material, options, result, promocode) => {
+const calc = (size, material, options, result, promocode, resultC) => {
 
     const sizeBlock = document.querySelector(size),
           materialBlock = document.querySelector(material),
@@ -9,6 +9,11 @@ const calc = (size, material, options, result, promocode) => {
     let sum = 0;
 
     function clacTo() {
+
+        resultC['size'] = sizeBlock.value;
+        resultC['material'] = materialBlock.value;
+        resultC['options'] = optionslBlock.value;
+
         sum = Math.round((+sizeBlock.value) * (+materialBlock.value) + (+optionslBlock.value));
 
         if (sizeBlock.value && materialBlock.value == '') {
@@ -18,7 +23,9 @@ const calc = (size, material, options, result, promocode) => {
         } else {
             resultBlock.textContent = sum;
         }
-        
+
+        resultC['sum'] = sum;
+        // console.log(resultC);
     }
 
     sizeBlock.addEventListener('change', clacTo);
